@@ -5,11 +5,12 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
+import {protect} from './middleware/authMiddleware.js';
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000;
 
 connectDB();
 
@@ -24,6 +25,13 @@ app.use(express.json());
 
 app.get('/', (req, res) => {
     res.send('API is running...');
+});
+
+app.get('/api/test', protect, (req, res) => {
+    res.json({
+        message: 'Protected route accessed!',
+        user: req.user
+    });
 });
 
 app.use('/api/auth', authRoutes);
