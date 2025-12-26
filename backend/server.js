@@ -5,7 +5,8 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
-import {protect} from './middleware/authMiddleware.js';
+import watchlistRoutes from './routes/watchlistRoutes.js';
+import { protect } from './middleware/authMiddleware.js';
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.get('/api/test', protect, (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/watchlist', watchlistRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
