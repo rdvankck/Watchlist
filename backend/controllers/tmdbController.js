@@ -1,4 +1,4 @@
-import {searchMulti, getMovieDetails, getTVDetails} from '../services/tmdbService.js';
+import { searchMulti, getMovieDetails, getTVDetails } from '../services/tmdbService.js';
 
 export const search = async (req, res) => {
     try {
