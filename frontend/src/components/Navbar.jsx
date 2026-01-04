@@ -11,29 +11,35 @@ function Navbar(){
         navigate('/login');
         
     };
-    
-    return (
-        <nav style={{backgroundColor: '#333', padding: '1rem', color:'white'}}>
-            <div style={{display:'flex', justifyContent: 'space-between', alignItems:'center', maxWidth:'1200px', margin: '0 auto'}}>
-                <div style={{display:'flex', alignItems:'center', gap: '1rem'}}>
-                    <Link to="/" style={{color:'white', textDecoration:'none', fontSize:'1.5rem', fontWeight:'bold'}}>
-                    MERN Watchlist
-                    </Link>
-                    {isAuthenticated && (
-                        <> <Link to="/search" style={{color:'white', textDecoration:'none'}}>Search</Link>
-                        <Link to="/watchlist" style={{color:'white',textDecoration:'none'}}>WatchList</Link>
-                        </>
-                    )}
-                </div>
-                <div style={{display:'flex', gap:'1rem'}}>
-                    {!isAuthenticated ? (
-                         <> <Link to="/login" style={{color:'white', textDecoration:'none'}}>login</Link>
-                         <Link to="/register" style={{color:'white',textDecoration:'none'}}>Register</Link>
-                         </>
-                    ) : (
-                        <button onClick={handleLogout} style={{padding:'0.5rem 1rem', backgroundColor:'#ff4444', color:'white', border:'none', cursor:'pointer'}}>Logout</button>
+   
 
-                    )}
+    return (
+        <nav className="bg-slate-900 shadow-lg">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex justify-between items-center h-16">
+                    <div className="flex items-center gap-6">
+                        <Link to="/" className="text-white text-2xl font-bold hover:text-blue-400 transition duration-300">
+                            MERN Watchlist
+                        </Link>
+                        {isAuthenticated && (
+                            <div className="flex gap-4">
+                                <Link to="/search" className="text-white hover:text-blue-400 transition duration-300">Search</Link>
+                                <Link to="/watchlist" className="text-white hover:text-blue-400 transition 
+duration-300">WatchList</Link>
+                            </div>
+                        )}
+                    </div>
+                    <div className="flex gap-4">
+                        {!isAuthenticated ? (
+                            <div className="flex gap-4">
+                                <Link to="/login" className="text-white hover:text-blue-400 transition duration-300">Login</Link>
+                                <Link to="/register" className="text-white hover:text-blue-400 transition duration-300">Register</Link>
+                            </div>
+                        ) : (
+                            <button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg 
+transition duration-300">Logout</button>
+                        )}
+                    </div>
                 </div>
             </div>
         </nav>
