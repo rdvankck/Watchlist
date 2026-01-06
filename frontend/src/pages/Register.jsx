@@ -19,55 +19,76 @@ import React, { useState } from 'react';
               setError(err.response?.data?.message || 'Registration failed');
           }
       }
-
       return (
-          <div style={{ padding: '2rem', maxWidth: '400px', margin: '0 auto' }}>
-            <h2>Register</h2>
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center 
+px-4">
+            <div className="max-w-md w-full bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 shadow-2xl">
+                <h2 className="text-3xl font-bold text-white text-center mb-8">Create Account</h2>
 
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+                {error && (
+                    <div className="bg-red-500/20 border border-red-500 text-red-100 px-4 py-3 rounded-lg mb-6">
+                        {error}
+                    </div>
+                )}
 
-            <form onSubmit={handleSubmit}>
-              <div style={{ marginBottom: '1rem' }}>
-                <label>Username:</label>
-                <input 
-                  type="text" 
-                  value={username} 
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
-                  style={{ width: '100%', padding: '0.5rem' }}
-                />
-              </div>
+                <form onSubmit={handleSubmit} className="space-y-5">
+                    <div>
+                        <label className="block text-white text-sm font-medium mb-2">Username</label>
+                        <input 
+                            type="text" 
+                            value={username} 
+                            onChange={(e) => setUsername(e.target.value)}
+                            required
+                            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400
+focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+                            placeholder="Choose a username"
+                        />
+                    </div>
 
-              <div style={{ marginBottom: '1rem' }}>
-                <label>Email:</label>
-                <input 
-                  type="email" 
-                  value={email} 
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  style={{ width: '100%', padding: '0.5rem' }}
-                />
-              </div>
+                    <div>
+                        <label className="block text-white text-sm font-medium mb-2">Email</label>
+                        <input 
+                            type="email" 
+                            value={email} 
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400
+focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+                            placeholder="Enter your email"
+                        />
+                    </div>
 
-              <div style={{ marginBottom: '1rem' }}>
-                <label>Password:</label>
-                <input 
-                  type="password" 
-                  value={password} 
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  style={{ width: '100%', padding: '0.5rem' }}
-                />
-              </div>
+                    <div>
+                        <label className="block text-white text-sm font-medium mb-2">Password</label>
+                        <input 
+                            type="password" 
+                            value={password} 
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400
+focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+                            placeholder="Create a password"
+                        />
+                    </div>
 
-              <button type="submit" style={{ padding: '0.5rem 1rem' }}>Register</button>
-            </form>
+                    <button 
+                        type="submit" 
+                        className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-lg transition 
+duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                    >
+                        Register
+                    </button>
+                </form>
 
-            <p>
-              Already have account? <Link to="/login">Login</Link>
-            </p>
-          </div>
-        );
-  }
+                <p className="text-center text-gray-300 mt-6">
+                    Already have an account?{' '}
+                    <Link to="/login" className="text-blue-400 hover:text-blue-300 font-semibold transition duration-300">
+                        Login
+                    </Link>
+                </p>
+            </div>
+        </div>
+    );
+}
 
   export default Register;
