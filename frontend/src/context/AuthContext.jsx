@@ -14,7 +14,6 @@ import { login, register } from '../api/auth';
 
         setUser(data);
         setToken(data.token);
-
         localStorage.setItem('token', data.token);
 
         return data;
