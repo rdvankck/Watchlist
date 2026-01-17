@@ -2,7 +2,6 @@ import React, { createContext, useState, useContext } from 'react';
 import { login, register } from '../api/auth';
 
   export const AuthContext = createContext();
-
   export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(localStorage.getItem('token') || null);
