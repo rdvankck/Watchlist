@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
   import { useNavigate, Link } from 'react-router-dom';
   import { useAuth } from '../context/AuthContext';
+  import { useToast } from '../hooks/useToast';
 
   function Login(){
       const [email, setEmail] = useState('');
@@ -8,14 +9,22 @@ import React, { useState } from 'react';
       const [error, setError] = useState('');
       const { loginUser } = useAuth();
       const navigate = useNavigate();
+      const { showToast } = useToast();
 
       const handleSubmit = async (e) => {
           e.preventDefault();
+          
+          if (!email.trim() || !password.trim()) {
+            showToast('Please fill in all fields', 'warning');
+            return; 
+          }
           try{
               await loginUser({ email, password });
+              showToast('Login successful! Welcome back! 🎉', 'success');
               navigate('/');
           } catch (err) {
               setError(err.response?.data?.message || 'Login Failed');
+              showToast(err.response?.data?.message || 'Login failed', 'error');
           }
       }
 
