@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { getWatchlist, updateWatchlistItem, deleteFromWatchlist } from '../api/watchlist';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../hooks/useToast';
 
 function Watchlist() {
     const [watchlist, setWatchlist] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const { token } = useAuth();
+    const { showToast } = useToast();
 
     useEffect(() => {
         fetchWatchlist();
@@ -17,8 +19,10 @@ function Watchlist() {
         try {
             const data = await getWatchlist(token);
             setWatchlist(data);
+            showToast('Watchlist loaded successfully!', 'success');
         } catch (err) {
             setError('Failed to fetch watchlist');
+            showToast('Failed to load watchlist', 'error');
         } finally {
             setLoading(false);
         }
@@ -28,8 +32,10 @@ function Watchlist() {
         try {
             await updateWatchlistItem(id, updates, token);
             fetchWatchlist();
+            showToast('Item updated successfully!', 'success');
         } catch (err) {
             setError('Failed to update item');
+            showToast('Failed to update item', 'error');
         }
     };
 
@@ -40,8 +46,10 @@ function Watchlist() {
         try {
             await deleteFromWatchlist(id, token);
             fetchWatchlist();
+            showToast('Item deleted successfully!', 'success');
         } catch (err) {
             setError('Failed to delete item');
+            showToast('Failed to delete item', 'error');
         }
     };
 
