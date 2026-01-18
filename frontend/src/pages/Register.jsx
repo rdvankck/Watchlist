@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
   import { useNavigate, Link } from 'react-router-dom';
   import { useAuth } from '../context/AuthContext';
+  import { useToast } from '../hooks/useToast';
 
   function Register(){
       const [username, setUsername] = useState('');
@@ -9,16 +10,30 @@ import React, { useState } from 'react';
       const [error, setError] = useState('');
       const { registerUser } = useAuth();
       const navigate = useNavigate();
+      const { showToast } = useToast();
 
       const handleSubmit = async (e) => {
-          e.preventDefault();
-          try{
-              await registerUser({ username, email, password });
-              navigate('/');
-          } catch (err) {
-              setError(err.response?.data?.message || 'Registration failed');
-          }
-      }
+        e.preventDefault();
+
+        if (!username.trim() || !email.trim() || !password.trim()) {
+            showToast('Please fill in all fields', 'warning');
+            return;
+        }
+
+        if (password.length < 6) {
+            showToast('Password must be at least 6 characters', 'warning');
+            return;
+        }
+
+        try{
+            await registerUser({ username, email, password });
+            showToast('Registration successful! Welcome! 🎉', 'success');
+            navigate('/');
+        } catch (err) {
+            setError(err.response?.data?.message || 'Registration failed');
+            showToast(err.response?.data?.message || 'Registration failed', 'error');
+        }
+    }
       return (
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center 
 px-4">
