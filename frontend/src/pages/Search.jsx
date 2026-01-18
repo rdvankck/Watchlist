@@ -1,32 +1,43 @@
 import React, { useState } from 'react';
-  import { searchMulti } from '../api/tmdb';
-  import { useAuth } from '../context/AuthContext';
+import { searchMulti } from '../api/tmdb';
+import { useAuth } from '../context/AuthContext';
+import { useToast } from '../hooks/useToast';
 
-  function Search(){
-      const [query, setQuery] = useState('');
-      const [results, setResults] = useState([]);
-      const [loading, setLoading] = useState(false);
-      const [error, setError] = useState('');
-      const { token } = useAuth();
+function Search(){
+    const [query, setQuery] = useState('');
+    const [results, setResults] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const { token } = useAuth();
+    const { showToast } = useToast();
 
-      const handleSearch = async (e) => {
-          e.preventDefault();
-          if (!query.trim()) return;
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        if (!query.trim()) {
+            showToast('Please enter a search query', 'warning');
+            return;
+        }
 
-          setLoading(true);
-          setError('');
+        setLoading(true);
+        setError('');
 
-          try {
-              const data = await searchMulti(query, token);
-              setResults(data);
-          } catch (err) {
-              setError('Search failed. Please try again.');
-              setResults([]);
-          } finally {
-              setLoading(false);
-          }
-      }
+        try {
+            const data = await searchMulti(query, token);
+            setResults(data);
 
+            if (data.length === 0) {
+                showToast('No results found', 'info');
+            } else {
+                showToast(`Found ${data.length} results`, 'success');
+            }
+        } catch (err) {
+            setError('Search failed. Please try again.');
+            setResults([]);
+            showToast('Search failed. Please try again.', 'error');
+        } finally {
+            setLoading(false);
+        }
+    }
       return (
           <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-8 px-4">
               <div className="max-w-7xl mx-auto">
