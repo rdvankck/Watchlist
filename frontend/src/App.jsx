@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useAuth } from './context/AuthContext';
+import { AuthProvider } from './context/AuthContext';
+import { ToastProvider } from './context/ToastContext';
 
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -9,23 +10,23 @@ import Watchlist from './pages/Watchlist';
 import Navbar from './components/Navbar';
 
 function App() {
-  const { isAuthenticated } = useAuth();
-
   return (
-    <Router>
-      <Navbar/>
+    <AuthProvider>
+      <ToastProvider>
+        <Router>
+          <Navbar/>
 
-      <Routes>
-      <Route path="/" element={<Home/>} />
-      <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login/>} />
-      <Route path="/register" element={isAuthenticated ? <Navigate to="/" /> : <Register/>} />
-      <Route path="/search" element={isAuthenticated ? <Search/> : <Navigate to="/login"/>} />
-      <Route path="/watchlist" element={isAuthenticated ? <Watchlist/> : <Navigate to="/login" /> } />
-
-      </Routes>
-    </Router>
+          <Routes>
+          <Route path="/" element={<Home/>} />
+          <Route path="/login" element={<Login/>} />
+          <Route path="/register" element={<Register/>} />
+          <Route path="/search" element={<Search/>} />
+          <Route path="/watchlist" element={<Watchlist/>} />
+          </Routes>
+        </Router>
+      </ToastProvider>
+    </AuthProvider>
   );
-  
 }
 
 export default App;

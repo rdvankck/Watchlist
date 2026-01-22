@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getWatchlist, updateWatchlistItem, deleteFromWatchlist } from '../api/watchlist';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../hooks/useToast';
@@ -7,13 +8,18 @@ function Watchlist() {
     const [watchlist, setWatchlist] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const { token } = useAuth();
+    const { token, isAuthenticated } = useAuth();
     const { showToast } = useToast();
     const [searchQuery, setSearchQuery] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
+        if (!isAuthenticated) {
+            navigate('/login');
+            return;
+        }
         fetchWatchlist();
-    }, []);
+    }, [isAuthenticated, navigate]);
 
     const fetchWatchlist = async () => {
         setLoading(true);

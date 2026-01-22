@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
-  import { useNavigate, Link } from 'react-router-dom';
-  import { useAuth } from '../context/AuthContext';
-  import { useToast } from '../hooks/useToast';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { useToast } from '../hooks/useToast';
 
-  function Login(){
-      const [email, setEmail] = useState('');
-      const [password, setPassword] = useState('');
-      const [error, setError] = useState('');
-      const { loginUser } = useAuth();
-      const navigate = useNavigate();
-      const { showToast } = useToast();
+function Login(){
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const { loginUser, isAuthenticated } = useAuth();
+    const navigate = useNavigate();
+    const { showToast } = useToast();
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/');
+        }
+    }, [isAuthenticated, navigate]);
 
       const handleSubmit = async (e) => {
           e.preventDefault();
