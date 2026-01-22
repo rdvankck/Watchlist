@@ -120,8 +120,7 @@ justify-center">
                                 )}
 
                                 <div className="flex items-center gap-2 mb-3">
-                                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${item.watched ? 'bg-green-500/20 
-text-green-400 border border-green-500' : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500'}`}>
+                                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${item.watched ? 'bg-green-500/20 text-green-400 border border-green-500' : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500'}`}>
                                         {item.watched ? '✓ Watched' : 'To Watch'}
                                     </span>
                                 </div>
