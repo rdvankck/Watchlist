@@ -11,6 +11,7 @@ function Watchlist() {
     const { token, isAuthenticated } = useAuth();
     const toast = useToast();
     const [searchQuery, setSearchQuery] = useState('');
+    const [filter, setFilter] = useState('all');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -60,7 +61,15 @@ function Watchlist() {
     };
 
     const filteredWatchlist = watchlist.filter(item => {
-        return item.title.toLowerCase().includes(searchQuery.toLowerCase());
+       const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
+
+       const matchesFilter =
+       filter === 'all' ? true :
+       filter === 'watched' ? item.watched :
+       filter === 'toWatch' ? !item.watched :
+       true;
+
+       return matchesSearch && matchesFilter;
     });
 
     return (
@@ -76,6 +85,40 @@ function Watchlist() {
                     className="w-full px-6 py-4 mb-8 bg-white/10 border-2 border-white/20 rounded-xl text-white placeholder-gray-400
 focus:outline-none focus:border-purple-500 text-lg"
                 />
+
+<div className="flex gap-3 mb-8">
+      <button
+          onClick={() => setFilter('all')}
+          className={`flex-1 px-6 py-3 rounded-xl font-semibold transition duration-300 ${
+              filter === 'all'
+                  ? 'bg-blue-500 text-white shadow-lg'
+                  : 'bg-white/10 text-gray-300 hover:bg-white/20'
+          }`}
+      >
+          All
+      </button>
+      <button
+          onClick={() => setFilter('watched')}
+          className={`flex-1 px-6 py-3 rounded-xl font-semibold transition duration-300 ${
+              filter === 'watched'
+                  ? 'bg-green-500 text-white shadow-lg'
+                  : 'bg-white/10 text-gray-300 hover:bg-white/20'
+          }`}
+      >
+          Watched
+      </button>
+      <button
+          onClick={() => setFilter('toWatch')}
+          className={`flex-1 px-6 py-3 rounded-xl font-semibold transition duration-300 ${
+              filter === 'toWatch'
+                  ? 'bg-yellow-500 text-white shadow-lg'
+                  : 'bg-white/10 text-gray-300 hover:bg-white/20'
+          }`}
+      >
+          To Watch
+      </button>
+  </div>
+
 
                 {loading && (
                     <div className="text-center text-white text-xl py-12">
