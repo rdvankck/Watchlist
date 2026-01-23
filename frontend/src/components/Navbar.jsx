@@ -3,15 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 function Navbar(){
-
-    const { isAuthenticated, logout } = useAuth();
+    const { isAuthenticated, logout, user } = useAuth();
     const navigate = useNavigate();
+
     const handleLogout = () => {
         logout();
         navigate('/login');
-        
     };
-   
 
     return (
         <nav className="bg-slate-900 shadow-lg">
@@ -24,20 +22,21 @@ function Navbar(){
                         {isAuthenticated && (
                             <div className="flex gap-4">
                                 <Link to="/search" className="text-white hover:text-blue-400 transition duration-300">Search</Link>
-                                <Link to="/watchlist" className="text-white hover:text-blue-400 transition 
-duration-300">WatchList</Link>
+                                <Link to="/watchlist" className="text-white hover:text-blue-400 transition duration-300">WatchList</Link>
                             </div>
                         )}
                     </div>
-                    <div className="flex gap-4">
+                    <div className="flex items-center gap-4">
+                        {isAuthenticated && user && (
+                            <span className="text-white text-sm">Welcome, {user.username || user.email}!</span>
+                        )}
                         {!isAuthenticated ? (
                             <div className="flex gap-4">
                                 <Link to="/login" className="text-white hover:text-blue-400 transition duration-300">Login</Link>
                                 <Link to="/register" className="text-white hover:text-blue-400 transition duration-300">Register</Link>
                             </div>
                         ) : (
-                            <button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg 
-transition duration-300">Logout</button>
+                            <button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition duration-300">Logout</button>
                         )}
                     </div>
                 </div>
@@ -45,4 +44,5 @@ transition duration-300">Logout</button>
         </nav>
     );
 }
+
 export default Navbar;

@@ -10,7 +10,7 @@ function Search(){
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const { token, isAuthenticated } = useAuth();
-    const { showToast } = useToast();
+    const toast = useToast();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -22,7 +22,7 @@ function Search(){
     const handleSearch = async (e) => {
         e.preventDefault();
         if (!query.trim()) {
-            showToast('Please enter a search query', 'warning');
+            toast.warning('Please enter a search query');
             return;
         }
 
@@ -34,14 +34,14 @@ function Search(){
             setResults(data);
 
             if (data.length === 0) {
-                showToast('No results found', 'info');
+                toast.info('No results found');
             } else {
-                showToast(`Found ${data.length} results`, 'success');
+                toast.success(`Found ${data.length} results`);
             }
         } catch (err) {
             setError('Search failed. Please try again.');
             setResults([]);
-            showToast('Search failed. Please try again.', 'error');
+            toast.error('Search failed. Please try again.');
         } finally {
             setLoading(false);
         }

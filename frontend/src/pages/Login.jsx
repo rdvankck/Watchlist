@@ -9,7 +9,7 @@ function Login(){
     const [error, setError] = useState('');
     const { loginUser, isAuthenticated } = useAuth();
     const navigate = useNavigate();
-    const { showToast } = useToast();
+    const toast = useToast();
 
     useEffect(() => {
         if (isAuthenticated) {
@@ -17,22 +17,22 @@ function Login(){
         }
     }, [isAuthenticated, navigate]);
 
-      const handleSubmit = async (e) => {
-          e.preventDefault();
-          
-          if (!email.trim() || !password.trim()) {
-            showToast('Please fill in all fields', 'warning');
-            return; 
-          }
-          try{
-              await loginUser({ email, password });
-              showToast('Login successful! Welcome back! 🎉', 'success');
-              navigate('/');
-          } catch (err) {
-              setError(err.response?.data?.message || 'Login Failed');
-              showToast(err.response?.data?.message || 'Login failed', 'error');
-          }
-      }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!email.trim() || !password.trim()) {
+            toast.warning('Please fill in all fields');
+            return;
+        }
+        try{
+            await loginUser({ email, password });
+            toast.success('Login successful! Welcome back! 🎉');
+            navigate('/');
+        } catch (err) {
+            setError(err.response?.data?.message || 'Login Failed');
+            toast.error(err.response?.data?.message || 'Login failed');
+        }
+    }
 
       return (
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center 

@@ -9,7 +9,7 @@ function Watchlist() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const { token, isAuthenticated } = useAuth();
-    const { showToast } = useToast();
+    const toast = useToast();
     const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
 
@@ -26,10 +26,10 @@ function Watchlist() {
         try {
             const data = await getWatchlist(token);
             setWatchlist(data);
-            showToast('Watchlist loaded successfully!', 'success');
+            toast.success('Watchlist loaded successfully!');
         } catch (err) {
             setError('Failed to fetch watchlist');
-            showToast('Failed to load watchlist', 'error');
+            toast.error('Failed to load watchlist');
         } finally {
             setLoading(false);
         }
@@ -39,10 +39,10 @@ function Watchlist() {
         try {
             await updateWatchlistItem(id, updates, token);
             fetchWatchlist();
-            showToast('Item updated successfully!', 'success');
+            toast.success('Item updated successfully!');
         } catch (err) {
             setError('Failed to update item');
-            showToast('Failed to update item', 'error');
+            toast.error('Failed to update item');
         }
     };
 
@@ -52,10 +52,10 @@ function Watchlist() {
         try {
             await deleteFromWatchlist(id, token);
             fetchWatchlist();
-            showToast('Item deleted successfully!', 'success');
+            toast.success('Item deleted successfully!');
         } catch (err) {
             setError('Failed to delete item');
-            showToast('Failed to delete item', 'error');
+            toast.error('Failed to delete item');
         }
     };
 
