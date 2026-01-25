@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { searchMulti } from '../api/tmdb';
+import { addToWatchlist } from '../api/watchlist';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../hooks/useToast';
 
@@ -9,6 +10,7 @@ function Search(){
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [addedItems, setAddedItems] = useState(new Set());
     const { token, isAuthenticated } = useAuth();
     const toast = useToast();
     const navigate = useNavigate();
@@ -45,7 +47,33 @@ function Search(){
         } finally {
             setLoading(false);
         }
-    }
+    };
+
+    const handleAddToWatchlist = async (item) => {
+        try {
+            if (addedItems.has(item.id)) {
+                toast.info('Already added to watchlist!');
+                return;
+            }
+
+            const watchlistItem = {
+                tmdbId: item.id,
+                title: item.title || item.name,
+                poster: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
+                mediaType: item.media_type,
+                rating: item.vote_average || 0,
+                releaseDate: item.release_date || item.first_air_date,
+                overview: item.overview
+            };
+
+            console.log('Adding to watchlist:', watchlistItem);
+            await addToWatchlist(watchlistItem, token);
+            setAddedItems(prev => new Set(prev).add(item.id));
+            toast.success(`${watchlistItem.title} added to watchlist!`);
+        } catch (err) {
+            toast.error(err.response?.data?.message || 'Failed to add to watchlist');
+        }
+    };
       return (
           <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-8 px-4">
               <div className="max-w-7xl mx-auto">
@@ -122,9 +150,20 @@ function Search(){
                                               {new Date(item.release_date).getFullYear()}
                                           </p>
                                       )}
-                                      <p className="text-gray-300 text-sm line-clamp-3">
+                                      <p className="text-gray-300 text-sm line-clamp-3 mb-4">
                                           {item.overview || 'No description available.'}
                                       </p>
+                                      <button
+                                          onClick={() => handleAddToWatchlist(item)}
+                                          disabled={addedItems.has(item.id)}
+                                          className={`w-full px-4 py-3 font-semibold rounded-xl transition duration-300 shadow-lg ${
+                                              addedItems.has(item.id)
+                                                  ? 'bg-gray-500 text-gray-300 cursor-not-allowed'
+                                                  : 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white transform hover:-translate-y-1 hover:shadow-xl'
+                                          }`}
+                                      >
+                                          {addedItems.has(item.id) ? '✓ Added' : '+ Add to Watchlist'}
+                                      </button>
                                   </div>
                               </div>
                           ))}

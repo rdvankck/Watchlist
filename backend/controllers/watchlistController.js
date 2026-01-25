@@ -2,7 +2,7 @@ import Watchlist from '../models/Watchlist.js';
 
   export const createWatchlistItem = async (req, res) => {
       try {
-          const { tmdbId, mediaType, title, poster, releaseDate, overview, genres, streamingProviders } = req.body;
+          const { tmdbId, mediaType, title, poster, rating, releaseDate, overview, genres, streamingProviders } = req.body;
 
           if (!tmdbId || !mediaType || !title) {
               return res.status(400).json({ message: 'Please provide tmdbId, mediaType, and title' });
@@ -23,6 +23,7 @@ import Watchlist from '../models/Watchlist.js';
               mediaType,
               title,
               poster,
+              rating,
               releaseDate,
               overview,
               genres,

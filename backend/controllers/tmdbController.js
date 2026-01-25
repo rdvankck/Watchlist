@@ -7,11 +7,7 @@ export const search = async (req, res) => {
             return res.status(400).json({ message: 'Please provide a search query' });
         }
         const results = await searchMulti(query);
-        res.json({
-            success: true,
-            count: results.length,
-            data: results
-        });
+        res.json(results);
     } catch (error){
         res.status(500).json({ message: error.message });
     }

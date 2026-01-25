@@ -4,7 +4,8 @@ const API_URL = 'http://localhost:5001/api/watchlist';
 
 
 export const getWatchlist = async (token) => {
-    const response = await axios.get(API_URL, {
+    const timestamp = Date.now();
+    const response = await axios.get(`${API_URL}?_t=${timestamp}`, {
         headers: {Authorization:  `Bearer ${token}`}
     });
     return response.data;

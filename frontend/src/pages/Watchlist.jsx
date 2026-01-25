@@ -30,6 +30,7 @@ function Watchlist() {
         setLoading(true);
         try {
             const data = await getWatchlist(token);
+            console.log('Fetched watchlist:', data);
             setWatchlist(data);
             toast.success('Watchlist loaded successfully!');
         } catch (err) {
@@ -198,7 +199,7 @@ justify-center">
                             <div className="p-4">
                                 <h3 className="text-xl font-bold text-white mb-2 truncate">{item.title}</h3>
 
-                                {item.rating && (
+                                {item.rating > 0 && (
                                     <div className="flex items-center gap-2 mb-3">
                                         <span className="text-yellow-400">⭐</span>
                                         <span className="text-white text-sm">{item.rating}/10</span>
@@ -216,22 +217,21 @@ justify-center">
                                 )}
 
                                 <div className="flex gap-2">
-                                <button
-      onClick={() => handleOpenModal(item)}
-      className="flex-1 px-4 py-2 bg-blue-500/20 hover:bg-blue-500/40 text-blue-400 border border-blue-500 rounded-lg transition 
-  duration-300 text-sm font-medium"
-  >
-      Edit
-  </button>
-                                   
-                                   
-                                   
-                                   
-                                 
-                                    <button 
+                                    <button
+                                        onClick={() => handleUpdate(item._id, { watched: !item.watched })}
+                                        className="flex-1 px-4 py-2 bg-green-500/20 hover:bg-green-500/40 text-green-400 border border-green-500 rounded-lg transition duration-300 text-sm font-medium"
+                                    >
+                                        {item.watched ? 'Mark Unwatched' : 'Mark Watched'}
+                                    </button>
+                                    <button
+                                        onClick={() => handleOpenModal(item)}
+                                        className="flex-1 px-4 py-2 bg-blue-500/20 hover:bg-blue-500/40 text-blue-400 border border-blue-500 rounded-lg transition duration-300 text-sm font-medium"
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
                                         onClick={() => handleDelete(item._id)}
-                                        className="px-4 py-2 bg-red-500/20 hover:bg-red-500/40 text-red-400 border border-red-500
-rounded-lg transition duration-300 text-sm font-medium"
+                                        className="px-4 py-2 bg-red-500/20 hover:bg-red-500/40 text-red-400 border border-red-500 rounded-lg transition duration-300 text-sm font-medium"
                                     >
                                         Delete
                                     </button>
