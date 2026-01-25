@@ -13,6 +13,7 @@ function Watchlist() {
     const [searchQuery, setSearchQuery] = useState('');
     const [filter, setFilter] = useState('all');
     const navigate = useNavigate();
+    const [sortBy, setSortBy] = useState('date');
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -72,6 +73,16 @@ function Watchlist() {
        return matchesSearch && matchesFilter;
     });
 
+    const sortedWatchlist = [...filteredWatchlist].sort((a,b) => {
+        if(sortBy === 'date'){
+            return new Date(b.createdAt) - new Date(a.createdAt);
+        } else if (sortBy === 'rating') {
+            return (b.rating || 0) - (a.rating || 0);
+        } else if (sortBy === 'name') {
+            return a.title.localeCompare(b.title);
+        } 
+        return 0;
+    });
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-8 px-4">
             <div className="max-w-7xl mx-auto">
@@ -118,6 +129,19 @@ focus:outline-none focus:border-purple-500 text-lg"
           To Watch
       </button>
   </div>
+  <div className="mb-8">
+      <label className="text-white text-sm font-semibold mb-2 block">Sort by:</label>
+      <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          className="w-full px-6 py-4 bg-white/10 border-2 border-white/20 rounded-xl text-white focus:outline-none
+  focus:border-purple-500 text-lg cursor-pointer"
+      >
+          <option value="date" className="bg-slate-900">Date (Newest First)</option>
+          <option value="rating" className="bg-slate-900">Rating (Highest First)</option>
+          <option value="name" className="bg-slate-900">Name (A-Z)</option>
+      </select>
+  </div>
 
 
                 {loading && (
@@ -147,7 +171,7 @@ rounded-xl transition duration-300 shadow-lg hover:shadow-xl transform hover:-tr
                 )}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {filteredWatchlist.map((item) => (
+                    {sortedWatchlist.map((item) => (
                         <div key={item._id} className="bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden border border-white/20 
 hover:bg-white/20 transition duration-300 hover:scale-105">
                             {item.poster ? (
