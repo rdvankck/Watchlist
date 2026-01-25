@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getWatchlist, updateWatchlistItem, deleteFromWatchlist } from '../api/watchlist';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../hooks/useToast';
+import  Modal  from '../components/Modal';
 
 function Watchlist() {
     const [watchlist, setWatchlist] = useState([]);
@@ -14,6 +15,8 @@ function Watchlist() {
     const [filter, setFilter] = useState('all');
     const navigate = useNavigate();
     const [sortBy, setSortBy] = useState('date');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -59,6 +62,16 @@ function Watchlist() {
             setError('Failed to delete item');
             toast.error('Failed to delete item');
         }
+    };
+
+    const handleOpenModal = (item) => {
+        setSelectedItem(item);
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setSelectedItem(null);
     };
 
     const filteredWatchlist = watchlist.filter(item => {
@@ -203,13 +216,18 @@ justify-center">
                                 )}
 
                                 <div className="flex gap-2">
-                                    <button 
-                                        onClick={() => handleUpdate(item._id, { watched: !item.watched })}
-                                        className="flex-1 px-4 py-2 bg-blue-500/20 hover:bg-blue-500/40 text-blue-400 border
-border-blue-500 rounded-lg transition duration-300 text-sm font-medium"
-                                    >
-                                        Toggle Watched
-                                    </button>
+                                <button
+      onClick={() => handleOpenModal(item)}
+      className="flex-1 px-4 py-2 bg-blue-500/20 hover:bg-blue-500/40 text-blue-400 border border-blue-500 rounded-lg transition 
+  duration-300 text-sm font-medium"
+  >
+      Edit
+  </button>
+                                   
+                                   
+                                   
+                                   
+                                 
                                     <button 
                                         onClick={() => handleDelete(item._id)}
                                         className="px-4 py-2 bg-red-500/20 hover:bg-red-500/40 text-red-400 border border-red-500
@@ -223,6 +241,15 @@ rounded-lg transition duration-300 text-sm font-medium"
                     ))}
                 </div>
             </div>
+            <Modal
+                  isOpen={isModalOpen}
+                  onClose={handleCloseModal}
+                  title="Edit Movie"
+              >
+                  <div className="text-white">
+                      <p>Selected: {selectedItem?.title}</p>
+                  </div>
+              </Modal>
         </div>
     );
 }
