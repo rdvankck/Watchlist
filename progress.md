@@ -16,6 +16,8 @@
 - [ ] Express server installation (server.js)
 - [ ] Check folder structure
 
+- Will contunie
+
 ☒ Toast integration - Add to Watchlist page
 ☒ Toast integration - Add to Search page
 ☐ Toast integration - Add to Login/Register pages
