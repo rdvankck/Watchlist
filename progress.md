@@ -9,23 +9,22 @@
 - [x] Necessary packages installed (express, mongoose, dotenv, cors, helmet, morgan, bcryptjs, jsonwebtoken)
 - [x] ES6 module activated ("type": "module")
 
+## ✅ Completed (Features)
+
+- [x] Create .env file
+- [x] MongoDB connection (config/db.js)
+- [x] Express server installation (server.js)
+- [x] Toast integration - Add to Watchlist page
+- [x] Toast integration - Add to Search page
+- [x] Toast integration - Add to Login/Register pages
+- [x] Search & Filter system - Add search bar
+- [x] Search & Filter - Filtering (All/Watched/To be Watched)
+- [x] Search & Filter - Sorting (Date/Score/Name)
+- [x] Create Reusable Modal component
+- [x] Edit Modal - Edit score, thoughts, watched status
+
 ## 🚧 To be done
 
-- [ ] Create .env file
-- [ ] MongoDB connection (config/db.js)
-- [ ] Express server installation (server.js)
-- [ ] Check folder structure
-
-- Will contunie
-
-☒ Toast integration - Add to Watchlist page
-☒ Toast integration - Add to Search page
-☒ Toast integration - Add to Login/Register pages
-☐ Search & Filter system - Add search bar
-☐ Search & Filter - Filtering (All/Watched/To be Watched)
-☐ Search & Filter - Sorting (Date/Score/Name)
-☐ Create Reusable Modal component
-☐ Edit Modal - Edit score, thoughts, watched status
 ☐ Movie/TV Detail Modal
 ☐ Skeleton Loader - For Watchlist cards
 ☐ Mobile Menu improvements - Hamburger menu
