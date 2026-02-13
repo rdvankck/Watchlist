@@ -4,6 +4,7 @@ import { searchMulti } from '../api/tmdb';
 import { addToWatchlist } from '../api/watchlist';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../hooks/useToast';
+import Modal from '../components/Modal';
 
 function Search(){
     const [query, setQuery] = useState('');
@@ -13,6 +14,8 @@ function Search(){
     const [addedItems, setAddedItems] = useState(new Set());
     const { token, isAuthenticated } = useAuth();
     const toast = useToast();
+    const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -74,6 +77,16 @@ function Search(){
             toast.error(err.response?.data?.message || 'Failed to add to watchlist');
         }
     };
+    const handleOpenDetail = (item) => {
+        setSelectedItem(item);
+        setIsDetailModalOpen(true);
+    };
+  
+    const handleCloseDetail = () => {
+        setIsDetailModalOpen(false);
+        setSelectedItem(null);
+    };
+  
       return (
           <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-8 px-4">
               <div className="max-w-7xl mx-auto">
@@ -116,8 +129,12 @@ function Search(){
                   {results.length > 0 && (
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                           {results.map((item) => (
-                              <div key={item.id} className="bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden border 
-  border-white/20 hover:bg-white/20 transition duration-300 hover:scale-105">
+                              <div
+                              key={item.id}
+                              onClick={() => handleOpenDetail(item)}
+                              className="bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden border
+                          border-white/20 hover:bg-white/20 transition duration-300 hover:scale-105 cursor-pointer"
+                          >
                                   {item.poster_path ? (
                                       <img 
                                           src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} 
@@ -176,7 +193,56 @@ function Search(){
                       </div>
                   )}
               </div>
+              <Modal
+      isOpen={isDetailModalOpen}
+      onClose={handleCloseDetail}
+      title={selectedItem?.title || selectedItem?.name || 'Details'}
+  >
+      <div className="space-y-4">
+          {selectedItem?.poster_path && (
+              <img 
+                  src={`https://image.tmdb.org/t/p/w500${selectedItem.poster_path}`}
+                  alt={selectedItem.title || selectedItem.name}
+                  className="w-full max-w-xs mx-auto rounded-lg"
+              />
+          )}
+
+          <div className="flex items-center gap-4">
+              <span className="text-blue-400 font-semibold">
+                  {selectedItem?.media_type?.toUpperCase()}
+              </span>
+              {selectedItem?.vote_average && (
+                  <span className="text-yellow-400">⭐ {selectedItem.vote_average.toFixed(1)}</span>
+              )}
+              {selectedItem?.release_date && (
+                  <span className="text-gray-400">
+                      {new Date(selectedItem.release_date).getFullYear()}
+                  </span>
+              )}
           </div>
+
+          <p className="text-gray-300 leading-relaxed">
+              {selectedItem?.overview || 'No description available.'}
+          </p>
+
+          <button
+              onClick={() => {
+                  handleAddToWatchlist(selectedItem);
+                  handleCloseDetail();
+              }}
+              disabled={addedItems.has(selectedItem?.id)}
+              className={`w-full px-4 py-3 font-semibold rounded-xl transition duration-300 ${
+                  addedItems.has(selectedItem?.id)
+                      ? 'bg-gray-500 text-gray-300 cursor-not-allowed'
+                      : 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white'
+              }`}
+          >
+              {addedItems.has(selectedItem?.id) ? '✓ Added to Watchlist' : '+ Add to Watchlist'}
+          </button>
+      </div>
+  </Modal>
+          </div>
+          
       );
   }
 

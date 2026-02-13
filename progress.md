@@ -25,7 +25,7 @@
 
 ## 🚧 To be done
 
-☐ Movie/TV Detail Modal
+- [x] Movie/TV Detail Modal
 ☐ Skeleton Loader - For Watchlist cards
 ☐ Mobile Menu improvements - Hamburger menu
 ☐ Micro-interactions - Hover and transition improvements
