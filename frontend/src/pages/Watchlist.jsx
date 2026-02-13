@@ -242,14 +242,68 @@ justify-center">
                 </div>
             </div>
             <Modal
-                  isOpen={isModalOpen}
-                  onClose={handleCloseModal}
-                  title="Edit Movie"
+      isOpen={isModalOpen}
+      onClose={handleCloseModal}
+      title="Edit Movie"
+  >
+      <div className="space-y-4">
+          <div>
+              <label className="block text-white text-sm font-medium mb-2">Rating (1-10)</label>
+              <input
+                  type="number"
+                  min="1"
+                  max="10"
+                  value={selectedItem?.rating || ''}
+                  onChange={(e) => setSelectedItem({ ...selectedItem, rating: parseInt(e.target.value) || 0 })}
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+          </div>
+
+          <div>
+              <label className="block text-white text-sm font-medium mb-2">Thoughts</label>
+              <textarea
+                  value={selectedItem?.thoughts || ''}
+                  onChange={(e) => setSelectedItem({ ...selectedItem, thoughts: e.target.value })}
+                  rows="3"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500
+  resize-none"
+                  placeholder="Write your thoughts..."
+              />
+          </div>
+
+          <div className="flex items-center gap-3">
+              <input
+                  type="checkbox"
+                  checked={selectedItem?.watched || false}
+                  onChange={(e) => setSelectedItem({ ...selectedItem, watched: e.target.checked })}
+                  className="w-5 h-5 rounded cursor-pointer"
+              />
+              <label className="text-white cursor-pointer">Watched</label>
+          </div>
+
+          <div className="flex gap-3 pt-4">
+              <button
+                  onClick={() => {
+                      handleUpdate(selectedItem._id, {
+                          rating: selectedItem.rating,
+                          thoughts: selectedItem.thoughts,
+                          watched: selectedItem.watched
+                      });
+                      handleCloseModal();
+                  }}
+                  className="flex-1 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg transition duration-300"
               >
-                  <div className="text-white">
-                      <p>Selected: {selectedItem?.title}</p>
-                  </div>
-              </Modal>
+                  Save
+              </button>
+              <button
+                  onClick={handleCloseModal}
+                  className="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-3 rounded-lg transition duration-300"
+              >
+                  Cancel
+              </button>
+          </div>
+      </div>
+  </Modal>
         </div>
     );
 }
