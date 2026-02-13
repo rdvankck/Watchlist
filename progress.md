@@ -20,7 +20,7 @@
 
 ☒ Toast integration - Add to Watchlist page
 ☒ Toast integration - Add to Search page
-☐ Toast integration - Add to Login/Register pages
+☒ Toast integration - Add to Login/Register pages
 ☐ Search & Filter system - Add search bar
 ☐ Search & Filter - Filtering (All/Watched/To be Watched)
 ☐ Search & Filter - Sorting (Date/Score/Name)
