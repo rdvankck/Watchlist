@@ -53,35 +53,49 @@ function Stats() {
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-8 px-4">
             <div className="max-w-4xl mx-auto">
                 <h2 className="text-4xl font-bold text-white text-center mb-8">📊 My Statistics</h2>
-
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-                    <StatCard title="Total" value={stats.total} icon="🎬" color="blue" />
-                    <StatCard title="Watched" value={stats.watched} icon="✅" color="green" />
-                    <StatCard title="To Watch" value={stats.toWatch} icon="⏳" color="yellow" />
-                    <StatCard title="Avg Rating" value={stats.avgRating} icon="⭐" color="purple" />
-                    <StatCard title="Movies" value={stats.movies} icon="🎥" color="blue" />
-                    <StatCard title="TV Shows" value={stats.tvShows} icon="📺" color="purple" />
-                </div>
-
-               <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-      <h3 className="text-xl font-bold text-white mb-4">Watch Progress</h3>
-      <div className="w-full bg-gray-700 rounded-full h-6 mb-3 overflow-hidden">
-          <div 
-              className="bg-gradient-to-r from-green-500 to-emerald-400 h-6 rounded-full transition-all duration-1000 ease-out relative"
-              style={{ width: `${stats.total > 0 ? (stats.watched / stats.total) * 100 : 0}%` }}
-          >
-              <div className="absolute inset-0  animate-pulse"></div>
-          </div>
-      </div>
-      <div className="flex justify-between items-center">
-          <p className="text-gray-400 text-sm">
-              {stats.watched} of {stats.total} completed
-          </p>
-          <p className="text-green-400 font-bold text-lg">
-              {stats.total > 0 ? Math.round((stats.watched / stats.total) * 100) : 0}%
-          </p>
-      </div>
-  </div>
+  
+                {watchlist.length === 0 ? (
+                    <div className="text-center py-16">
+                        <div className="text-6xl mb-4">📊</div>
+                        <h3 className="text-2xl font-bold text-white mb-4">No stats yet</h3>
+                        <p className="text-gray-400 text-lg mb-8">Add some movies to your watchlist to see your stats!</p>
+                        <a href="/search" className="inline-block bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white
+    font-semibold px-8 py-4 rounded-xl transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                            Go to Search
+                        </a>
+                    </div>
+                ) : (
+                    <>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+                            <StatCard title="Total" value={stats.total} icon="🎬" color="blue" />
+                            <StatCard title="Watched" value={stats.watched} icon="✅" color="green" />
+                            <StatCard title="To Watch" value={stats.toWatch} icon="⏳" color="yellow" />
+                            <StatCard title="Avg Rating" value={stats.avgRating} icon="⭐" color="purple" />
+                            <StatCard title="Movies" value={stats.movies} icon="🎥" color="blue" />
+                            <StatCard title="TV Shows" value={stats.tvShows} icon="📺" color="purple" />
+                        </div>
+  
+                        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+                            <h3 className="text-xl font-bold text-white mb-4">Watch Progress</h3>
+                            <div className="w-full bg-gray-700 rounded-full h-6 mb-3 overflow-hidden">
+                                <div 
+                                    className="bg-gradient-to-r from-green-500 to-emerald-400 h-6 rounded-full transition-all duration-1000 ease-out relative"
+                                    style={{ width: `${stats.total > 0 ? (stats.watched / stats.total) * 100 : 0}%` }}
+                                >
+                                    <div className="absolute inset-0 bg-white/20 animate-pulse"></div>
+                                </div>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <p className="text-gray-400 text-sm">
+                                    {stats.watched} of {stats.total} completed
+                                </p>
+                                <p className="text-green-400 font-bold text-lg">
+                                    {stats.total > 0 ? Math.round((stats.watched / stats.total) * 100) : 0}%
+                                </p>
+                            </div>
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );
