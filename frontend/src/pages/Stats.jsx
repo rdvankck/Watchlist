@@ -80,16 +80,17 @@ function Stats() {
     );
 }
 
-const StatCard = ({ title, value, icon, color }) => {
-    const colors = {
-        blue: 'from-blue-500 to-blue-600',
-        green: 'from-green-500 to-green-600',
-        yellow: 'from-yellow-500 to-yellow-600',
+const StatCard = ({ title, value, icon, color }) => {                                                                                                              
+    const colors = {                                                                                                                                               
+        blue: 'from-blue-500 to-blue-600',                                                                                                                         
+        green: 'from-green-500 to-green-600',                                                                                                                      
+        yellow: 'from-yellow-500 to-yellow-600',                                                                                                                   
         purple: 'from-purple-500 to-purple-600'
     };
 
     return (
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20 text-center">
+        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20 text-center
+            transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-white/40">
             <div className="text-3xl mb-2">{icon}</div>
             <div className={`text-3xl font-bold bg-gradient-to-r ${colors[color]} bg-clip-text text-transparent`}>
                 {value}
