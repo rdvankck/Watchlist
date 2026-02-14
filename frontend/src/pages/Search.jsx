@@ -129,12 +129,13 @@ function Search(){
                   {results.length > 0 && (
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                           {results.map((item) => (
-                              <div
-                              key={item.id}
-                              onClick={() => handleOpenDetail(item)}
-                              className="bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden border
-                          border-white/20 hover:bg-white/20 transition duration-300 hover:scale-105 cursor-pointer"
-                          >
+                             <div
+                             key={item.id}
+                             onClick={() => handleOpenDetail(item)}
+                             className="bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden border
+                         border-white/20 hover:bg-white/20 transition-all duration-300 hover:scale-[1.02]
+                         hover:shadow-2xl hover:shadow-purple-500/20 active:scale-[0.98] cursor-pointer"
+                         >
                                   {item.poster_path ? (
                                       <img 
                                           src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} 
