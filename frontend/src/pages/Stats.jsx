@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getWatchlist } from '../api/watchlist';
 import { useAuth } from '../context/AuthContext';
@@ -79,21 +79,43 @@ function Stats() {
         </div>
     );
 }
+const useCountUp = (end, duration = 500) => {
+    const [count, setCount] = useState(0);
 
-const StatCard = ({ title, value, icon, color }) => {                                                                                                              
-    const colors = {                                                                                                                                               
-        blue: 'from-blue-500 to-blue-600',                                                                                                                         
-        green: 'from-green-500 to-green-600',                                                                                                                      
-        yellow: 'from-yellow-500 to-yellow-600',                                                                                                                   
+    useEffect(() => {
+        let start = 0;
+        const increment = end / (duration / 16);
+        const timer = setInterval(() => {
+            start += increment;
+            if (start >= end) {
+                setCount(end);
+                clearInterval(timer);
+            } else {
+                setCount(Math.floor(start));
+            }
+        }, 16);
+        return () => clearInterval(timer);
+    }, [end, duration]);
+
+    return count;
+};
+
+const StatCard = ({ title, value, icon, color }) => {
+    const colors = {
+        blue: 'from-blue-500 to-blue-600',
+        green: 'from-green-500 to-green-600',
+        yellow: 'from-yellow-500 to-yellow-600',
         purple: 'from-purple-500 to-purple-600'
     };
+
+    const count = useCountUp(Number(value) || 0);
 
     return (
         <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20 text-center
             transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-white/40">
             <div className="text-3xl mb-2">{icon}</div>
             <div className={`text-3xl font-bold bg-gradient-to-r ${colors[color]} bg-clip-text text-transparent`}>
-                {value}
+                {title === 'Avg Rating' ? value : count}
             </div>
             <div className="text-gray-400 text-sm">{title}</div>
         </div>
