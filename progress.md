@@ -29,7 +29,7 @@
 - [x] Skeleton Loader - For Watchlist cards
 - [x] Mobile Menu improvements - Hamburger menu
 - [x] Micro-interactions - Hover and transition improvements
-☐ Confetti animation - Achievement animation
+- [x] Confetti animation - Achievement animation
 ☐ Stats Dashboard - Create statistics page
 ☐ Stats Dashboard - Chart library integration
 ☐ Export Feature - JSON/CSV export
