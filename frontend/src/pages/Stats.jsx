@@ -63,18 +63,25 @@ function Stats() {
                     <StatCard title="TV Shows" value={stats.tvShows} icon="📺" color="purple" />
                 </div>
 
-                <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-                    <h3 className="text-xl font-bold text-white mb-4">Watch Progress</h3>
-                    <div className="w-full bg-gray-700 rounded-full h-4 mb-2">
-                        <div 
-                            className="bg-gradient-to-r from-green-500 to-emerald-400 h-4 rounded-full transition-all duration-500"
-                            style={{ width: `${stats.total > 0 ? (stats.watched / stats.total) * 100 : 0}%` }}
-                        ></div>
-                    </div>
-                    <p className="text-gray-400 text-sm">
-                        {stats.total > 0 ? Math.round((stats.watched / stats.total) * 100) : 0}% completed
-                    </p>
-                </div>
+               <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+      <h3 className="text-xl font-bold text-white mb-4">Watch Progress</h3>
+      <div className="w-full bg-gray-700 rounded-full h-6 mb-3 overflow-hidden">
+          <div 
+              className="bg-gradient-to-r from-green-500 to-emerald-400 h-6 rounded-full transition-all duration-1000 ease-out relative"
+              style={{ width: `${stats.total > 0 ? (stats.watched / stats.total) * 100 : 0}%` }}
+          >
+              <div className="absolute inset-0  animate-pulse"></div>
+          </div>
+      </div>
+      <div className="flex justify-between items-center">
+          <p className="text-gray-400 text-sm">
+              {stats.watched} of {stats.total} completed
+          </p>
+          <p className="text-green-400 font-bold text-lg">
+              {stats.total > 0 ? Math.round((stats.watched / stats.total) * 100) : 0}%
+          </p>
+      </div>
+  </div>
             </div>
         </div>
     );
