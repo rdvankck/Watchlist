@@ -189,8 +189,9 @@ rounded-xl transition duration-300 shadow-lg hover:shadow-xl transform hover:-tr
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {sortedWatchlist.map((item) => (
-                        <div key={item._id} className="bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden border border-white/20 
-hover:bg-white/20 transition duration-300 hover:scale-105">
+                         <div key={item._id} className="bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden border border-white/20
+                         hover:bg-white/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/20
+                         active:scale-[0.98]">
                             {item.poster ? (
                                 <img src={item.poster} alt={item.title} className="w-full h-64 object-cover" />
                             ) : (
