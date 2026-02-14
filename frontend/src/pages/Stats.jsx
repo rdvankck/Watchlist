@@ -82,7 +82,7 @@ function Stats() {
                                     className="bg-gradient-to-r from-green-500 to-emerald-400 h-6 rounded-full transition-all duration-1000 ease-out relative"
                                     style={{ width: `${stats.total > 0 ? (stats.watched / stats.total) * 100 : 0}%` }}
                                 >
-                                    <div className="absolute inset-0 bg-white/20 animate-pulse"></div>
+                                    <div className="absolute inset-0 animate-pulse"></div>
                                 </div>
                             </div>
                             <div className="flex justify-between items-center">
