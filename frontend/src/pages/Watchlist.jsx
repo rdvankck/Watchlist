@@ -4,6 +4,7 @@ import { getWatchlist, updateWatchlistItem, deleteFromWatchlist } from '../api/w
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../hooks/useToast';
 import  Modal  from '../components/Modal';
+import SkeletonCard from '../components/SkeletonCard';
 
 function Watchlist() {
     const [watchlist, setWatchlist] = useState([]);
@@ -158,13 +159,15 @@ focus:outline-none focus:border-purple-500 text-lg"
   </div>
 
 
-                {loading && (
-                    <div className="text-center text-white text-xl py-12">
-                        <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-white 
-border-t-transparent"></div>
-                        <p className="mt-4">Loading...</p>
-                    </div>
-                )}
+              
+  {loading && (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+              <SkeletonCard key={n} />
+          ))}
+      </div>
+  )}
+
 
                 {error && (
                     <div className="max-w-3xl mx-auto bg-red-500/20 border border-red-500 text-red-100 px-6 py-4 rounded-xl mb-8">
