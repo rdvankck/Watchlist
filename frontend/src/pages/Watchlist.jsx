@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { useToast } from '../hooks/useToast';
 import  Modal  from '../components/Modal';
 import SkeletonCard from '../components/SkeletonCard';
+import confetti from 'canvas-confetti';
 
 function Watchlist() {
     const [watchlist, setWatchlist] = useState([]);
@@ -42,17 +43,28 @@ function Watchlist() {
         }
     };
 
+    const triggerConfetti = () => {
+        confetti({
+            particleCount: 50,
+            spread: 60,
+            origin: {y: 0.7},
+            colors: ['#a855f7', '#3b82f6', '#22c55e']
+        });
+    };
+
     const handleUpdate = async (id, updates) => {
         try {
             await updateWatchlistItem(id, updates, token);
             fetchWatchlist();
             toast.success('Item updated successfully!');
+            if (updates.watched === true) {
+                triggerConfetti();
+            }
         } catch (err) {
             setError('Failed to update item');
             toast.error('Failed to update item');
         }
     };
-
     const handleDelete = async (id) => {
         if (!window.confirm('Are you sure you want to delete this item?')) return;
 
