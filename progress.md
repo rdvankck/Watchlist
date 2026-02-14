@@ -26,7 +26,7 @@
 ## 🚧 To be done
 
 - [x] Movie/TV Detail Modal
-☐ Skeleton Loader - For Watchlist cards
+- [x] Skeleton Loader - For Watchlist cards
 ☐ Mobile Menu improvements - Hamburger menu
 ☐ Micro-interactions - Hover and transition improvements
 ☐ Confetti animation - Achievement animation
