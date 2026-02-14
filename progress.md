@@ -28,7 +28,7 @@
 - [x] Movie/TV Detail Modal
 - [x] Skeleton Loader - For Watchlist cards
 - [x] Mobile Menu improvements - Hamburger menu
-☐ Micro-interactions - Hover and transition improvements
+- [x] Micro-interactions - Hover and transition improvements
 ☐ Confetti animation - Achievement animation
 ☐ Stats Dashboard - Create statistics page
 ☐ Stats Dashboard - Chart library integration
