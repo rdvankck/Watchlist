@@ -27,6 +27,7 @@ function Navbar(){
                             <div className="flex gap-4">
                                 <Link to="/search" className="text-white hover:text-blue-400 transition duration-300">Search</Link>
                                 <Link to="/watchlist" className="text-white hover:text-blue-400 transition duration-300">Watchlist</Link>
+                                <Link to="/stats" className="text-white hover:text-blue-400 transition duration-300">Stats</Link>
                             </div>
                         )}
                         {isAuthenticated && user && (
@@ -78,6 +79,14 @@ function Navbar(){
                                     className="text-white hover:text-blue-400 transition duration-300 py-2"
                                 >
                                     Watchlist
+                                </Link>
+
+                                <Link 
+                                    to="/stats" 
+                                    onClick={() => setIsMenuOpen(false)}
+                                    className="text-white hover:text-blue-400 transition duration-300 py-2"
+                                >
+                                    Stats
                                 </Link>
                             </div>
                         )}
