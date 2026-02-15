@@ -32,6 +32,6 @@
 - [x] Confetti animation - Achievement animation
 - [x] Stats Dashboard - Create statistics page
 - [x] Stats Dashboard - Chart library integration
-☐ Export Feature - JSON/CSV export
+- [x] Export Feature - JSON/CSV export
 ☐ Theme System - Light/Dark mode toggle 
 ☐ Pagination / Infinite Scroll - Virtual scrolling
