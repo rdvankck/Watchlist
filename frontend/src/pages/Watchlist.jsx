@@ -78,6 +78,43 @@ function Watchlist() {
         }
     };
 
+    const exportToJSON = () => {
+        const dataStr = JSON.stringify(watchlist, null, 2);
+        const dataBlob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'watchlist.json';
+        link.click();
+        URL.revokeObjectURL(url);
+        toast.success('Watchlist exported as JSON!');
+    };
+  
+    const exportToCSV = () => {
+        const headers = ['Title', 'Type', 'Rating', 'Watched', 'Thoughts', 'Date Added'];
+        const rows = watchlist.map(item => [
+            item.title,
+            item.mediaType,
+            item.rating || 0,
+            item.watched ? 'Yes' : 'No',
+            item.thoughts || '',
+            new Date(item.createdAt).toLocaleDateString()
+        ]);
+  
+        const csvContent = [headers, ...rows]
+            .map(row => row.map(cell => `"${cell}"`).join(','))
+            .join('\n');
+  
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'watchlist.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+        toast.success('Watchlist exported as CSV!');
+    };
+
     const handleOpenModal = (item) => {
         setSelectedItem(item);
         setIsModalOpen(true);
@@ -170,6 +207,24 @@ focus:outline-none focus:border-purple-500 text-lg"
       </select>
   </div>
 
+  <div className="flex gap-3 mb-8">
+      <button
+          onClick={exportToJSON}
+          disabled={watchlist.length === 0}
+          className="flex-1 px-6 py-3 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition
+  duration-300"
+      >
+          📄 Export JSON
+      </button>
+      <button
+          onClick={exportToCSV}
+          disabled={watchlist.length === 0}
+          className="flex-1 px-6 py-3 bg-green-500 hover:bg-green-600 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition
+   duration-300"
+      >
+          📊 Export CSV
+      </button>
+  </div>
 
               
   {loading && (
