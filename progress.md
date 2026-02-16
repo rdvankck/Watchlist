@@ -33,5 +33,5 @@
 - [x] Stats Dashboard - Create statistics page
 - [x] Stats Dashboard - Chart library integration
 - [x] Export Feature - JSON/CSV export
-☐ Theme System - Light/Dark mode toggle 
+- [x] Theme System - Light/Dark mode toggle 
 ☐ Pagination / Infinite Scroll - Virtual scrolling
