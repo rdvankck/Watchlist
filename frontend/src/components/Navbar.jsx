@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 
 function Navbar(){
     const { isAuthenticated, logout, user } = useAuth();
     const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { theme, toggleTheme } = useTheme();
 
     const handleLogout = () => {
         logout();
@@ -28,6 +30,7 @@ function Navbar(){
                                 <Link to="/search" className="text-white hover:text-blue-400 transition duration-300">Search</Link>
                                 <Link to="/watchlist" className="text-white hover:text-blue-400 transition duration-300">Watchlist</Link>
                                 <Link to="/stats" className="text-white hover:text-blue-400 transition duration-300">Stats</Link>
+                                <button onClick={toggleTheme} className='text-white hover:text-yellow-400 transition duration-300 text-xl'> { theme === 'dark' ? '☀️' : '🌙'} </button>
                             </div>
                         )}
                         {isAuthenticated && user && (
@@ -88,6 +91,15 @@ function Navbar(){
                                 >
                                     Stats
                                 </Link>
+                                <button
+      onClick={() => {
+          toggleTheme();
+          setIsMenuOpen(false);
+      }}
+      className="text-white hover:text-yellow-400 transition duration-300 py-2 text-left text-xl"
+  >
+      {theme === 'dark' ? '☀️  Light Mode' : '🌙 Dark Mode'}
+  </button>
                             </div>
                         )}
                         {isAuthenticated && user && (
