@@ -54,6 +54,15 @@ function Search(){
 
     const handleAddToWatchlist = async (item) => {
         try {
+            console.log('Token:', token);
+            console.log('LocalStorage token:', localStorage.getItem('token'));
+
+            if (!token) {
+                toast.error('Please login first');
+                navigate('/login');
+                return;
+            }
+
             if (addedItems.has(item.id)) {
                 toast.info('Already added to watchlist!');
                 return;

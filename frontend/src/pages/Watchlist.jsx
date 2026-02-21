@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getWatchlist, updateWatchlistItem, deleteFromWatchlist } from '../api/watchlist';
 import { useAuth } from '../context/AuthContext';
@@ -23,15 +23,8 @@ function Watchlist() {
     const [loadingMore, setLoadingMore] = useState(false);
     const ITEMS_PER_PAGE = 8;    
 
-    useEffect(() => {
-        if (!isAuthenticated) {
-            navigate('/login');
-            return;
-        }
-        fetchWatchlist();
-    }, [isAuthenticated, navigate]);
-
-    const fetchWatchlist = async () => {
+    const fetchWatchlist = useCallback(async () => {
+        if (!token) return;
         setLoading(true);
         try {
             const data = await getWatchlist(token);
@@ -44,7 +37,15 @@ function Watchlist() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [token]);
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate('/login');
+            return;
+        }
+        fetchWatchlist();
+    }, [isAuthenticated, navigate, fetchWatchlist]);
 
     const triggerConfetti = () => {
         confetti({
