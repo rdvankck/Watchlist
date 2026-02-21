@@ -19,6 +19,9 @@ function Watchlist() {
     const [sortBy, setSortBy] = useState('date');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [visibleCount, setVisibleCount] = useState(8);
+    const [loadingMore, setLoadingMore] = useState(false);
+    const ITEMS_PER_PAGE = 8;    
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -147,6 +150,32 @@ function Watchlist() {
         } 
         return 0;
     });
+    const visibleItems = sortedWatchlist.slice(0, visibleCount);
+    const hasMore = visibleCount < sortedWatchlist.length;
+    const loadMore = () => {
+        setLoadingMore(true);
+        setTimeout(() => {
+            setVisibleCount(prev => prev + ITEMS_PER_PAGE);
+            setLoadingMore(false);
+        }, 500);
+    };
+  
+    useEffect(() => {
+        const handleScroll = () => {
+            if (loadingMore || !hasMore) return;
+  
+            const scrollTop = window.scrollY;
+            const scrollHeight = document.documentElement.scrollHeight;
+            const clientHeight = window.innerHeight;
+  
+            if (scrollTop + clientHeight >= scrollHeight - 200) {
+                loadMore();
+            }
+        };
+  
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [loadingMore, hasMore]);
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-8 px-4">
             <div className="max-w-7xl mx-auto">
@@ -255,7 +284,7 @@ rounded-xl transition duration-300 shadow-lg hover:shadow-xl transform hover:-tr
                 )}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {sortedWatchlist.map((item) => (
+                    {visibleItems.map((item) => (
                          <div key={item._id} className="bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden border border-white/20
                          hover:bg-white/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/20
                          active:scale-[0.98]">
@@ -311,6 +340,18 @@ justify-center">
                         </div>
                     ))}
                 </div>
+                {loadingMore && (
+      <div className="col-span-full text-center py-8">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-purple-500 border-t-transparent"></div>
+          <p className="text-white mt-4">Loading more...</p>
+      </div>
+  )}
+
+  {!hasMore && sortedWatchlist.length > 0 && (
+      <div className="col-span-full text-center py-8 text-gray-400">
+          🎬 You've reached the end!
+      </div>
+  )}
             </div>
             <Modal
       isOpen={isModalOpen}
