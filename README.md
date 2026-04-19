@@ -1,6 +1,6 @@
 # MERN Watchlist Application
 
-A full-stack movie and TV show watchlist application built with the MERN stack (MongoDB, Express, React, Node.js).
+A full-stack movie and TV show watchlist application built with the MERN stack (MongoDB, Express, React, Node.js)
 
 ## Features
 
